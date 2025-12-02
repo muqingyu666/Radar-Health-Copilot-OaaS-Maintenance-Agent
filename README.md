@@ -1,5 +1,17 @@
 # Radar Health Copilot (OaaS)
-面向观测即服务（OaaS）的多智能体运维最小可行方案，采用“硬规则 + 软推理”混合架构完成监测、诊断、报告闭环。
+面向我国新一轮气象观测网建设（雷达、AWS 等设备数量激增、数据量巨大）的多智能体运维最小可行方案。用“硬规则 + 软推理”完成监测、诊断、报告闭环，让质控更智能、更及时，减轻一线运维压力。项目将作为 Kaggle Agents Intensive Capstone Project（https://www.kaggle.com/competitions/agents-intensive-capstone-project/overview）参赛作品。
+
+![架构示意图](schema.png)
+
+## 为什么需要它
+- 覆盖面迅速扩张：全国新增大量雷达与自动站，数据量爆炸，人工巡检滞后。
+- 数据可靠性挑战：微小漂移、弱信号衰减、结冰/积水等隐患难以及时发现。
+- 运维人力紧张：专家稀缺，跨设备、跨地域的批量质控缺乏自动化。
+
+## 解决思路
+- 硬规则前置：Python QC 工具箱基于物理约束（极值、空间一致性、时间突变、雷达 SNR/反射率偏差、跨变量一致性）快速筛掉无效数据与高风险信号。
+- 软推理跟进：LLM 代理结合元数据、邻站/邻域信息，区分极端天气 vs 设备故障，给出原因与置信度。
+- 标准化输出：按风险分级生成 SOP 式工单，帮助运维快速执行与溯源。
 
 ## 架构概览
 - Monitor（调度 + 初筛）：调用 Python QC 工具箱完成极值、空间一致性、SNR 等硬规则检查。
@@ -9,8 +21,7 @@
 ## 目录约定
 - `agents/`：核心逻辑（QC 工具箱、各 Agent、示例运行脚本 `app.py`）。
 - `tests/`：最小验证用例（离线可跑，覆盖 QC 与管线输出）。
-- `examples/`：上游提供的 Google ADK 参考示例（未改动）。
-- `data/sample_observations.csv`：多变量观测流示例，可直接用于流式演示。
+- `data/rich_observations_extremes.csv`：多变量观测流示例，可直接用于流式演示。
 
 ## 快速开始（离线最小可用）
 1. 激活环境：`mamba activate py314-agent`

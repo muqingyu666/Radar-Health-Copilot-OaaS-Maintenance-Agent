@@ -1,3 +1,8 @@
+# -*- coding: utf-8 -*-
+# @Author: Muqy
+# @Date:   2025-12-01 20:47:09
+# @Last Modified by:   Muqy
+# @Last Modified time: 2025-12-01 20:51:45
 from agents import AgentOrchestrator
 
 
@@ -6,7 +11,9 @@ def test_pipeline_temperature_anomaly():
     data_packet = {"type": "temperature", "station_id": "S1", "value": 30.0}
     neighbors = [{"id": "S2", "value": 22.0}, {"id": "S3", "value": 21.5}]
 
-    result = orchestrator.run_pipeline(data_packet, neighbors, metadata="Clear sky")
+    result = orchestrator.run_pipeline(
+        data_packet, neighbors, metadata="Clear sky"
+    )
 
     qc_result = result["monitor_output"]["qc_result"]
     assert qc_result["passed"] is False
